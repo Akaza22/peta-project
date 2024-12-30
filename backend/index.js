@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000
 
 
 app.get('/', (req, res) => {
-    res.send('Hallo apakabar evandika')
+    res.send('Hallo apakabar Dims')
 });
 
 app.listen(port, () => {
