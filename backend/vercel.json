@@ -3,18 +3,13 @@
   "builds": [
     {
       "src": "src/index.mts",
-      "use": "@vercel/node",
-      "config": {
-        "typescript": {
-          "tsconfig": "tsconfig.json"
-        }
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/index.mjs"
+      "dest": "src/index.mts"
     }
   ]
 }
