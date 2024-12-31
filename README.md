@@ -34,6 +34,11 @@ A huge shoutout to our amazing team members who brought this project to life:
 Your dedication and collaboration make this project possible! 🌟
 
 ---
+## Our Tech Stacks  : 
+<div align="center">
+	<code><img width="50" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" alt="TypeScript" title="TypeScript"/></code>
+	<code><img width="50" src="https://user-images.githubusercontent.com/25181517/183859966-a3462d8d-1bc7-4880-b353-e2cbed900ed6.png" alt="Express" title="Express"/></code>
+</div>
 
 ## 🛠️ Getting Started
 
