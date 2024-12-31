@@ -1,5 +1,9 @@
 # Project Repository
 
+
+### What is Peta ??
+PETA stands for "Pembela Tanah Air," which translates to "Defenders of the Homeland." It is a student community with a strong passion for technology, particularly in the field of application development.
+
 ## 📚 About This Project
 Welcome to our collaborative project repository! This repository contains three main directories:
 
