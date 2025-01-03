@@ -3,16 +3,13 @@
   "builds": [
     {
       "src": "src/index.mts",
-      "use": "@vercel/node",
-      "config": {
-        "zeroConfig": true
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/index.mjs"
+      "dest": "src/index.mts"
     }
   ]
 }
