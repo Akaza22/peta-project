@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx nodemon",
     "build": "tsc",
-    "start": "node dist/index.mjs"
+    "start": "node dist/index.mjs",
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",
