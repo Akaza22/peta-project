@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv'
 import cors from 'cors';
+import authRoutes  from './routes/authRoutes'
+import sequelize from './database/db';
 
 
 dotenv.config();
@@ -10,14 +12,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors())
 app.use(express.json());
+app.use('/auth', authRoutes);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Halo revandicka');
+
+
+sequelize.sync().then(() => {
+  console.log('Database connected and tables synced');
 });
-
-app.get('/test', (req: Request, res: Response) => {
-  res.send('ini route test');
-})
 
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
