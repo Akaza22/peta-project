@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx nodemon",
     "build": "tsc",
-    "start": "npx tsc -w"
+    "start": "npx tsc -w",
+    "postinstall": "npm install"
   },
   "keywords": [],
   "author": "",
