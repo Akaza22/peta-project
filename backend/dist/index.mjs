@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import authRoutes from './routes/authRoutes.js';
-import sequelize from './database/db.js';
+import authRoutes from './routes/authRoutes';
+import sequelize from './database/db';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;

@@ -9,7 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.ts", "src/index.mts"],
   "exclude": ["node_modules"],
