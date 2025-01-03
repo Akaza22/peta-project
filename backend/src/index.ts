@@ -20,7 +20,7 @@ app.use('/auth', authRoutes);
 
 
 sequelize.sync().then(() => {
-  console.log('Database connected and tables synced');
+  console.log('Database connected & tables synced');
 });
 
 app.listen(PORT, () => {
