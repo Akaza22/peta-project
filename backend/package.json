@@ -2,11 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "npx nodemon",
-    "build": "tsc && cp .env ./build/.env",
-    "start": "npx tsc -w"
+    "build": "tsc",
+    "start": "npx tsc -w",
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",
