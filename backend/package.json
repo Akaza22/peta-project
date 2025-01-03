@@ -7,7 +7,7 @@
     "dev": "npx nodemon",
     "build": "tsc",
     "start": "npx tsc -w",
-    "vercel-build": "npm run build"
+    "postinstall": "npm install"
   },
   "keywords": [],
   "author": "",
