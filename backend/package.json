@@ -1,13 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "dist/index.mjs",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
     "dev": "npx nodemon",
-    "build": "tsc",
-    "start": "node dist/index.mjs",
-    "vercel-build": "npm run build"
+    "build": "tsc && cp .env ./build/.env",
+    "start": "npx tsc -w"
   },
   "keywords": [],
   "author": "",

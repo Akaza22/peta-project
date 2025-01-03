@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import express from 'express';
 import { loginController } from '../controllers/loginController';
 import { registerController } from '../controllers/registerController';
 import { authMiddleware } from '../middlewares/authMiddleware';
 
-const router = Router();
+const router = express.Router();
 
 router.post('/register', registerController);
 router.post('/login', loginController);
