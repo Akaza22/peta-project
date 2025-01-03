@@ -12,7 +12,7 @@
     "strict": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts", "src/index.mts"],
+  "include": ["src/**/*.ts", "src/index.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
     "esm": true,
