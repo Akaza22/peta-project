@@ -1,13 +1,25 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../database/db';
 
-class User extends Model {
+interface UserAttributes {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+
+class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number;
   public username!: string;
   public email!: string;
   public password!: string;
-  public createdAt!: Date;  // Tambahkan properti untuk createdAt
-  public updatedAt!: Date;  // Tambahkan properti untuk updatedAt
+  public role!: string;
+
+  public readonly createdAt!: Date;  // Tambahkan properti untuk createdAt
+  public readonly updatedAt!: Date;  // Tambahkan properti untuk updatedAt
 }
 
 User.init(
@@ -20,7 +32,6 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -31,11 +42,15 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user', // Default role
+    },
   },
   {
     sequelize,
     tableName: 'users',
-    timestamps: true,  // Aktifkan timestamps agar Sequelize mengelola createdAt dan updatedAt
   }
 );
 

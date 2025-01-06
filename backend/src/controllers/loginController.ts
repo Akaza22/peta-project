@@ -2,12 +2,28 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/User';  // Import model User Anda
 import { generateToken } from '../utils/jwtHelper';  // Fungsi generateToken untuk menghasilkan JWT
+import Joi from 'joi';
+
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).required(),
+});
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
+  const { error, value } = loginSchema.validate(req.body);
 
+  if (error) {
+    res.status(400).json({
+      status: 400,
+      message: error.details[0].message,
+      data: [],
+    });
+    return;
+  }
+
+  const { email, password } = value;
+  
   try {
-    // Cari pengguna berdasarkan email menggunakan Sequelize
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -19,7 +35,6 @@ export const loginController = async (req: Request, res: Response): Promise<void
       return;
     }
 
-    // Validasi password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(401).json({
@@ -30,14 +45,22 @@ export const loginController = async (req: Request, res: Response): Promise<void
       return;
     }
 
-    // Generate token
-    const token = generateToken({ id: user.id });
+    const token = generateToken({ 
+      id: user.id,
+      email: user.email,
+      role: user.role
+    });
 
-    // Kembalikan token dalam response
     res.status(200).json({
       status: 200,
       message: 'Login successful',
       data: { token },
+      user: {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    }
     });
   } catch (error) {
     console.error(error);

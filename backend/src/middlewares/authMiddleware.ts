@@ -1,32 +1,43 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';  // Pastikan untuk import 'jsonwebtoken' sesuai versi yang digunakan
+import express, { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-// Middleware untuk memverifikasi token JWT
-export const authMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  const authHeader = req.headers.authorization;
+export interface AuthenticatedRequest extends Request {
+  user?: jwt.JwtPayload & { role?: string }; // Menambahkan properti role ke payload
+}
 
-  // Pastikan header Authorization ada
-  if (!authHeader) {
-    res.status(401).json({ message: 'Authorization header missing' });
-    return;
-  }
+// Middleware untuk memverifikasi token JWT dan pengecekan role
+export const authMiddleware = (allowedRoles: string[]) => {
+  return async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    const authHeader = req.headers.authorization;
 
-  // Ambil token dari header "Authorization"
-  const token = authHeader.split(' ')[1];  // Format: "Bearer <token>"
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.status(401).json({ message: 'Authorization header missing or invalid format' });
+      return; // Jangan lupa return setelah merespons
+    }
 
-  try {
-    // Verifikasi token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload;
+    const token = authHeader.split(' ')[1];
 
-    // Jika berhasil, simpan informasi user ke dalam request
-    (req as any).user = decoded;  // Simpan decoded token ke request sebagai user
+    try {
+      // Memverifikasi token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload;
 
-    next();  // Melanjutkan ke route handler berikutnya
-  } catch (error) {
-    res.status(403).json({ message: 'Invalid or expired token' });
-  }
+      // Menyisipkan user ke dalam request untuk digunakan di controller selanjutnya
+      req.user = decoded;
+
+      // Memastikan role sesuai dengan yang diizinkan
+      if (!req.user?.role || !allowedRoles.includes(req.user.role)) {
+        res.status(403).json({ message: 'Access denied' });
+        return; // Jangan lupa return setelah merespons
+      }
+
+      next();
+    } catch (error: any) {
+      if (error.name === 'TokenExpiredError') {
+        res.status(403).json({ message: 'Token expired' });
+      } else {
+        res.status(403).json({ message: 'Invalid token' });
+      }
+      return; // Jangan lupa return setelah merespons
+    }
+  };
 };
