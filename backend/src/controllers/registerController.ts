@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../models/User';  // Import model User Anda
-import { generateToken } from '../utils/jwtHelper';  // Fungsi generateToken untuk menghasilkan JWT
+import User from '../models/User';  
+import { generateToken } from '../utils/jwtHelper';  
 
 export const registerController = async (req: Request, res: Response): Promise<void> => {
   const { username, email, password } = req.body;
