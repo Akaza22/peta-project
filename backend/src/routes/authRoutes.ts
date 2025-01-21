@@ -4,7 +4,7 @@ import { registerController } from '../controllers/registerController';
 import { authMiddleware } from '../middlewares/authMiddleware';  // Mengimpor authMiddleware yang sudah mencakup roleMiddleware
 import { validate } from '../middlewares/validate';
 import Joi from 'joi';
-import { deleteUser, editUser } from '../controllers/userController';
+import { deleteUser, editUser, getAllUsers } from '../controllers/userController';
 
 const router = express.Router();
 
@@ -28,6 +28,9 @@ router.get('/admin-dashboard', authMiddleware(['admin']), (req: any, res: Respon
 router.get('/test', authMiddleware(['user', 'admin']), (req: any, res: Response) => {
   res.status(200).json({ message: 'This is a protected route!', user: req.user });
 });
+
+// Test Route untuk melihat seluruh user yang terdaftar
+router.get('/allUsers', authMiddleware(['admin']), getAllUsers);
 
 router.delete(
   '/users/:id',
