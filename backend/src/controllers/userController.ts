@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '../models/User'; // Sesuaikan path dengan lokasi model User Anda
+import { User } from '../models/Relation';   // Sesuaikan path dengan lokasi model User Anda
 
 // Delete user berdasarkan ID
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
@@ -24,7 +24,7 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
 // Edit user berdasarkan ID
 export const editUser = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params; // Mengambil ID dari parameter URL
-  const { username, email, role } = req.body; // Data yang akan diupdate
+  const { name, email, role } = req.body; // Data yang akan diupdate
 
   try {
     const user = await User.findByPk(id);
@@ -35,7 +35,7 @@ export const editUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Update data user
-    user.username = username || user.username;
+    user.name = name || user.name;
     user.email = email || user.email;
     user.role = role || user.role;
 

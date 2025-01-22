@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../models/User';  
+import { User } from '../models/Relation';  
 import { generateToken } from '../utils/jwtHelper';  
 import Joi from 'joi';
 
 // Skema validasi untuk input pengguna
 const registerSchema = Joi.object({
-  username: Joi.string().required(),
+  name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
   role: Joi.string().valid('user', 'admin').default('user'),
@@ -25,7 +25,7 @@ export const registerController = async (req: Request, res: Response): Promise<v
     return;
   }
 
-  const { username, email, password, role } = value;
+  const { name, email, password, role } = value;
 
   try {
     const existingUser = await User.findOne({ where: { email } });
@@ -42,7 +42,7 @@ export const registerController = async (req: Request, res: Response): Promise<v
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
-      username,
+      name,
       email,
       password: hashedPassword,
       role,
@@ -61,7 +61,7 @@ export const registerController = async (req: Request, res: Response): Promise<v
         token,
         user: {
           id: newUser.id,
-          username: newUser.username,
+          name: newUser.name,
           email: newUser.email,
           role: newUser.role,
         },
