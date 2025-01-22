@@ -21,7 +21,7 @@ app.use('/api/user', userRoutes);
 
 
 sequelize.sync().then(() => {
-  console.log('Database connected & tables synced');
+  console.log('Database terhubung & tabel tersinkronisasi');
 });
 
 app.listen(PORT, () => {
