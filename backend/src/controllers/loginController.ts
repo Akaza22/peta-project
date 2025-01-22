@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../models/User';  // Import model User Anda
+import { User } from '../models/Relation';  
 import { generateToken } from '../utils/jwtHelper';  // Fungsi generateToken untuk menghasilkan JWT
 import Joi from 'joi';
 
@@ -57,7 +57,7 @@ export const loginController = async (req: Request, res: Response): Promise<void
       data: { token },
       user: {
       id: user.id,
-      username: user.username,
+      name: user.name,
       email: user.email,
       role: user.role,
     }

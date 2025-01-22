@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes';
 import sequelize from './database/db';
 import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes';
+import './models/Relation';
 
 dotenv.config();
 
