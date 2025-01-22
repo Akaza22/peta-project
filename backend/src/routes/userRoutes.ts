@@ -1,6 +1,7 @@
 import express, { Response } from 'express';
 import { deleteUser, editUser, getAllUsers } from '../controllers/userController';
 import { authMiddleware } from '../middlewares/authMiddleware';
+import { createProject } from '../controllers/ProjectController';
 
 
 const router = express.Router();
@@ -29,6 +30,8 @@ router.put(
   authMiddleware(['admin']),
   editUser
 );
+
+router.post('/project', authMiddleware(['user', 'admin']), createProject);
 
 export default router;
 

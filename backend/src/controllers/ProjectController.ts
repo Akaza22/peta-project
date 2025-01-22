@@ -1,0 +1,35 @@
+import { Request, Response } from 'express';
+import { Project, User } from '../models/Relation';
+import { AuthenticatedRequest } from '../middlewares/authMiddleware';
+
+// Create a new project
+export const createProject = async (req: AuthenticatedRequest, res: Response) => {
+  const { name, description } = req.body;
+  const ownerId = req.user?.id; // Assuming user ID is available in req.user.id
+
+  if (!ownerId) {
+    res.status(400).json({ message: 'User ID is required' });
+    return;
+  }
+
+  try {
+    const newProject = await Project.create({ name, description, ownerId });
+    const user = await User.findByPk(ownerId);
+
+    res.status(201).json({ 
+      message: 'Project created successfully', 
+      status: 201,
+      data: {
+        project: newProject, 
+        user: {
+        name: user?.name
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error creating project:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// ...existing code...
