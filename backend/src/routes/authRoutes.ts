@@ -9,7 +9,7 @@ const router = express.Router();
 
 // Skema validasi untuk registrasi
 const registerSchema = Joi.object({
-  username: Joi.string().required(),
+  name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
   role: Joi.string().valid('user', 'admin').default('user'),
