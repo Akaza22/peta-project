@@ -6,6 +6,7 @@ import sequelize from './database/db';
 import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes';
 import './models/Relation';
+import projectRoutes from './routes/projectRoutes';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(bodyParser.json())
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api', projectRoutes);
 
 
 

@@ -32,4 +32,25 @@ export const createProject = async (req: AuthenticatedRequest, res: Response) =>
   }
 };
 
-// ...existing code...
+// Get projects by user ID
+export const getUserProjects = async (req: AuthenticatedRequest, res: Response) => {
+  const ownerId = req.user?.id; // Assuming user ID is available in req.user.id
+
+  if (!ownerId) {
+    res.status(400).json({ message: 'User ID is required' });
+    return;
+  }
+
+  try {
+    const user = await User.findByPk(ownerId);
+    const projects = await Project.findAll({ where: { ownerId } });
+    res.status(200).json({ 
+      message: 'Projects fetched successfully', 
+      status: 200,
+      data: projects,user:{name:user?.name}
+    });
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
