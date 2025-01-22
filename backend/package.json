@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx nodemon",
     "build": "tsc",
-    "start": "npx tsc -w"
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
