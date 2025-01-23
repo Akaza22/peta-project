@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Project, User } from '../models/Relation';
+import { Project, Task, User } from '../models/Relation';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware';
 
 // Create a new project
@@ -21,9 +21,7 @@ export const createProject = async (req: AuthenticatedRequest, res: Response) =>
       status: 201,
       data: {
         project: newProject, 
-        user: {
-        name: user?.name
-        }
+        user: {name: user?.name}
       }
     });
   } catch (error) {
@@ -43,11 +41,17 @@ export const getUserProjects = async (req: AuthenticatedRequest, res: Response) 
 
   try {
     const user = await User.findByPk(ownerId);
-    const projects = await Project.findAll({ where: { ownerId } });
+    const projects = await Project.findAll({ 
+        where: { ownerId },
+        include: [{ model: Task }]
+    });
+    
     res.status(200).json({ 
       message: 'Projects fetched successfully', 
       status: 200,
-      data: projects,user:{name:user?.name}
+      data: projects,
+      user:{name:user?.name}, 
+      
     });
   } catch (error) {
     console.error('Error fetching projects:', error);

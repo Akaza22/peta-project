@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes';
 import './models/Relation';
 import projectRoutes from './routes/projectRoutes';
+import taskRoutes from './routes/TaskRoutes';
 import multer from 'multer';
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(bodyParser.json())
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/project', projectRoutes);
+app.use('/api/task', taskRoutes);
 
 
 
