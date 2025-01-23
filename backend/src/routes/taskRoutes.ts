@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/authMiddleware';
-import { createTask, editTask, getTasksByProjectId, getTasksByUserId } from '../controllers/TaskController';
+import { createTask, deleteTask, editTask, getTasksByProjectId, getTasksByUserId } from '../controllers/TaskController';
 
 const router = express.Router();
 
@@ -12,7 +12,8 @@ router.get('/project/:projectId', authMiddleware(['user', 'admin']), getTasksByP
 router.get('/user', authMiddleware(['user', 'admin']), getTasksByUserId);
 // Route to edit a task by ID
 router.put('/:id', authMiddleware(['user', 'admin']), editTask);
-
+// Route to delete a task by ID
+router.delete('/:id', authMiddleware(['user', 'admin']), deleteTask);
 
 
 export default router;

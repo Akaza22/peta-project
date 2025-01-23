@@ -142,3 +142,33 @@ export const editTask = async (req: AuthenticatedRequest, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const deleteTask = async (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.params;
+    const ownerId = req.user?.id;
+
+    if (!ownerId) {
+        res.status(400).json({ message: 'User ID is required' });
+        return;
+    }
+
+    try {
+        // Check if the task exists and the user is the owner of the project
+        const task = await Task.findOne({
+            where: { id },
+            include: [{ model: Project, where: { ownerId } }]
+        });
+
+        if (!task) {
+            res.status(404).json({ message: 'Task not found or you do not have permission to delete this task' });
+            return;
+        }
+
+        await task.destroy();
+
+        res.status(200).json({ message: 'Task deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
