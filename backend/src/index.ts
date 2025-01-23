@@ -7,18 +7,21 @@ import bodyParser from 'body-parser'
 import userRoutes from './routes/userRoutes';
 import './models/Relation';
 import projectRoutes from './routes/projectRoutes';
+import multer from 'multer';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const upload = multer(); 
 
+app.use(upload.none());
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json())
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api', projectRoutes);
+app.use('/api/project', projectRoutes);
 
 
 

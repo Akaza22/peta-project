@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 import { User } from '../models/Relation';   // Sesuaikan path dengan lokasi model User Anda
 
 // Delete user berdasarkan ID
@@ -24,7 +25,7 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
 // Edit user berdasarkan ID
 export const editUser = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params; // Mengambil ID dari parameter URL
-  const { name, email, role } = req.body; // Data yang akan diupdate
+  const { name, email, role, password } = req.body; // Data yang akan diupdate
 
   try {
     const user = await User.findByPk(id);
@@ -38,6 +39,12 @@ export const editUser = async (req: Request, res: Response): Promise<void> => {
     user.name = name || user.name;
     user.email = email || user.email;
     user.role = role || user.role;
+
+    // Update password if provided
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
 
     await user.save(); // Menyimpan perubahan
     res.status(200).json({ message: 'User updated successfully', user });
