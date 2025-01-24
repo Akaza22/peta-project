@@ -18,12 +18,14 @@ router.get('/easterregg', authMiddleware(['user', 'admin']), (req: any, res: Res
 // Test Route untuk melihat seluruh user yang terdaftar
 router.get('/allUsers', authMiddleware(['admin']), getAllUsers);
 
+// Route untuk menghapus user
 router.delete(
   '/users/:id',
   authMiddleware(['admin']),
   deleteUser
 );
 
+// Route untuk mengedit user
 router.put(
   '/users/:id',
   authMiddleware(['admin']),
