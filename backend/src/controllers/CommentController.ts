@@ -88,4 +88,33 @@ export const getCommentsByTaskId = async (req: Request, res: Response) => {
   }
 };
 
+//delete comment by id
+export const deleteComment = async (req: AuthenticatedRequest, res: Response) => {
+  const { id } = req.params;
+  const user_id = req.user?.id;
 
+  if (!user_id) {
+    res.status(400).json({ message: 'User ID is required' });
+    return;
+  }
+
+  try {
+    // Check if the comment exists and belongs to the user
+    const comment = await Comment.findOne({ where: { id, user_id } });
+
+    if (!comment) {
+      res.status(404).json({ message: 'Comment not found or you do not have permission to delete this comment' });
+      return;
+    }
+
+    await comment.destroy();
+
+    res.status(200).json({
+      message: 'Comment deleted successfully',
+      status: 200
+    });
+  } catch (error) {
+    console.error('Error deleting comment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
